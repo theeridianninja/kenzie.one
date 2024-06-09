@@ -1,0 +1,15 @@
+[submodule "src/pages/speedtest"]
+	path = src/pages/speedtest
+	url = https://git.ixvd.net/logically.cc/speedtest
+[submodule "src/pages/calc"]
+	path = src/pages/calc
+	url = https://git.ixvd.net/logically.cc/calc
+[submodule "src/pages/rockpaperscissors"]
+	path = src/pages/rockpaperscissors
+	url = https://git.ixvd.net/logically.cc/rockpaperscissors
+[submodule "src/pages/8ball"]
+	path = src/pages/8ball
+	url = https://git.ixvd.net/logically.cc/8ball
+[submodule "src/pages/clock"]
+	path = src/pages/clock
+	url = https://git.ixvd.net/logically.cc/clock

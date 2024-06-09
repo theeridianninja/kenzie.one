@@ -1,0 +1,68 @@
+---
+const { title } = Astro.props
+---
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{title} ~LogicallyLogi~</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css/out/dark.min.css">
+    <style>
+        body {
+            margin: 0;
+            max-width: 100%
+        }
+
+        main {
+            margin: 1rem auto;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+        }
+
+        article {
+            padding-top: 5vh;
+            padding-bottom: 5vh;
+            width: 80vw;
+        }
+
+        header {
+            width: auto;
+            display: flex;
+            align-items: center;
+            padding: 0.5vh 10vw;
+        }
+
+        header img {
+            height: 5rem;
+            width: 5rem;
+        }
+
+        header a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 800;
+            padding: 0.3em;
+        }
+
+        header a:hover {
+            text-decoration: underline;
+        }
+</style>
+</head>
+<body>
+<header>
+    <img src="/logo.webp" alt="logo">
+
+    <a href="/">Home</a>
+    <a href="/about">About Me</a>
+    <a href="/blog">Blog</a>
+    <a href="/projects">Projects</a>
+</header>
+<main>
+<article>
+<slot></slot>
+</article>
+</main>
+</body>
+</html>

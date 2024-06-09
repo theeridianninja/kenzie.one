@@ -1,0 +1,35 @@
+---
+import Layout from "layouts/primary.astro"
+---
+
+<Layout>
+    <button id="tester">Test my speed!</button>
+    <div id="download"></div>
+    <div id="upload"></div>
+    <script>
+        const downloadP = document.getElementById("download")
+        const uploadP = document.getElementById("upload")
+
+        document.getElementById("tester").onclick = async (_event: MouseEvent) => {
+            const programStart = new Date().getTime()
+            let totalTransmitted = 0;
+            const getRuntime = ()=>parseInt(((new Date().getTime() - programStart)/1000).toPrecision(2))
+
+            const updateInterval = setInterval(()=>{
+                downloadP.innerText = `Your download speed is ${(totalTransmitted/getRuntime()).toPrecision(2)} megabytes per second.\nTransferred ${totalTransmitted} megabytes in ${getRuntime()} seconds.`
+            }, 1)
+
+            while (getRuntime() <= 30) {
+                if (getRuntime() >= 30) break;
+                (await fetch("https://raw.githubusercontent.com/yourkin/fileupload-fastapi/main/tests/data/test-10mb.bin")).body;
+                totalTransmitted += 10;
+                if (getRuntime() >= 30) break;
+                (await fetch("https://raw.githubusercontent.com/yourkin/fileupload-fastapi/main/tests/data/test-5mb.bin")).body;
+                totalTransmitted += 5;
+                if (getRuntime() >= 30) break;
+            }
+
+            clearInterval(updateInterval)
+        }
+    </script>
+</Layout>

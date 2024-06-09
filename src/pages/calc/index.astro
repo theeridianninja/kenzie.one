@@ -1,0 +1,221 @@
+---
+import Layout from "layouts/primary.astro"
+---
+<Layout>
+    <style>
+        .pad {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-rows: 0.3fr 1fr 1fr 1fr 1fr;
+            gap: 1em 1em;
+            grid-auto-flow: row;
+            grid-template-areas:
+                    "equation equation equation backspace"
+                    "one two three add"
+                    "four five six subtract"
+                    "seven eight nine multiply"
+                    "enter enter zero divide";
+        }
+
+        #one {
+            grid-area: one;
+        }
+
+        #two {
+            grid-area: two;
+        }
+
+        #three {
+            grid-area: three;
+        }
+
+        #four {
+            grid-area: four;
+        }
+
+        #five {
+            grid-area: five;
+        }
+
+        #six {
+            grid-area: six;
+        }
+
+        #seven {
+            grid-area: seven;
+        }
+
+        #eight {
+            grid-area: eight;
+        }
+
+        #nine {
+            grid-area: nine;
+        }
+
+        #add {
+            grid-area: add;
+        }
+
+        #subtract {
+            grid-area: subtract;
+        }
+
+        #enter {
+            grid-area: enter;
+        }
+
+        #zero {
+            grid-area: zero;
+        }
+
+        #multiply {
+            grid-area: multiply;
+        }
+
+        #divide {
+            grid-area: divide;
+        }
+
+        #equation {
+            grid-area: equation;
+        }
+
+        #backspace {
+            grid-area: backspace;
+        }
+    </style>
+    <div class="pad">
+        <input type="text" placeholder="1+1=?" id="equation" disabled />
+        <button id="one">1</button>
+        <button id="two">2</button>
+        <button id="three">3</button>
+        <button id="four">4</button>
+        <button id="five">5</button>
+        <button id="six">6</button>
+        <button id="seven">7</button>
+        <button id="eight">8</button>
+        <button id="nine">9</button>
+        <button id="add">+</button>
+        <button id="subtract">-</button>
+        <button id="enter">=</button>
+        <button id="zero">0</button>
+        <button id="multiply">*</button>
+        <button id="divide">/</button>
+        <button id="backspace"><-</button>
+    </div>
+    <script>
+        const equation = document.getElementById("equation")
+        const calculate = () => {
+            const equationSafe = equation.value.replace(/[^-()\d/*+.]/g, '');
+            equation.value = eval(equationSafe);
+        }
+
+        const backspace = () => {
+            let equationArray = equation.value.split("")
+            equationArray.pop()
+            equation.value = equationArray.join("")
+        }
+        document.body.onkeydown = (e) => {
+            switch (e.key) {
+                case "1":
+                    equation.value += 1
+                    break;
+                case "2":
+                    equation.value += 2
+                    break;
+                case "3":
+                    equation.value += 3
+                    break;
+                case "4":
+                    equation.value += 4
+                    break;
+                case "5":
+                    equation.value += 5
+                    break;
+                case "6":
+                    equation.value += 6
+                    break;
+                case "7":
+                    equation.value += 7
+                    break;
+                case "8":
+                    equation.value += 8
+                    break;
+                case "9":
+                    equation.value += 9
+                    break;
+                case "0":
+                    equation.value += 0
+                    break;
+                case "-":
+                    equation.value += "-"
+                    break;
+                case "+":
+                    equation.value += "+"
+                    break;
+                case "*":
+                    equation.value += "*"
+                    break;
+                case "/":
+                    equation.value += "/"
+                    break;
+                case "Enter":
+                case "=":
+                    calculate();
+                    break;
+                case "Backspace":
+                    backspace();
+                    break;
+            }
+        }
+        document.getElementById("one").onclick = () => {
+            equation.value += 1
+        }
+        document.getElementById("two").onclick = () => {
+            equation.value += 2
+        }
+        document.getElementById("three").onclick = () => {
+            equation.value += 3
+        }
+        document.getElementById("four").onclick = () => {
+            equation.value += 4
+        }
+        document.getElementById("five").onclick = () => {
+            equation.value += 5
+        }
+        document.getElementById("six").onclick = () => {
+            equation.value += 6
+        }
+        document.getElementById("seven").onclick = () => {
+            equation.value += 7
+        }
+        document.getElementById("eight").onclick = () => {
+            equation.value += 8
+        }
+        document.getElementById("nine").onclick = () => {
+            equation.value += 9
+        }
+        document.getElementById("zero").onclick = () => {
+            equation.value += 0
+        }
+        document.getElementById("add").onclick = () => {
+            equation.value += "+"
+        }
+        document.getElementById("subtract").onclick = () => {
+            equation.value += "-"
+        }
+        document.getElementById("multiply").onclick = () => {
+            equation.value += "*"
+        }
+        document.getElementById("divide").onclick = () => {
+            equation.value += "/"
+        }
+        document.getElementById("enter").onclick = () => {
+            calculate();
+        }
+        document.getElementById("backspace").onclick = () => {
+            backspace();
+        }
+    </script>
+</Layout>

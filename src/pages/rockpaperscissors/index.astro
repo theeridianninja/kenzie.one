@@ -1,0 +1,78 @@
+---
+import Layout from "layouts/primary.astro"
+---
+
+<Layout>
+    <style>
+        .container {  display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 0px 0px;
+            grid-auto-flow: row;
+            grid-template-areas:
+    ". Icon ."
+    "Buttons Buttons Buttons";
+        }
+
+        #Buttons { grid-area: Buttons; }
+        #Icon { grid-area: Icon; }
+
+    </style>
+    <p id="scoreboard"></p>
+    <hr>
+    <p>You Selected:</p><h3 id="player"></h3>
+    <p>AI Selected:</p><h3 id="machine"></h3>
+    <p id="result"></p>
+    <hr>
+    <div class="container">
+        <div id="Buttons">
+            <button id="rock">🪨</button>
+            <button id="paper">📝</button>
+            <button id="scissors">✂</button>
+        </div>
+    </div>
+    <script>
+        const result = document.getElementById("result")
+        const items = ["rock", "paper", "scissors"]
+        const scores = {computer:0, player:0}
+        const scoreboard = document.getElementById("scoreboard")
+        const player = document.getElementById("player")
+        const computer = document.getElementById("machine")
+        const play = (e) => {
+            player.innerText = e
+            const selection = items[Math.floor(Math.random()*items.length)];
+            console.log(e)
+            console.log(selection)
+            computer.innerText = selection
+            if (e == selection) result.innerText = "Tie!"; else
+            if ((e == "rock" && selection == "scissors") || (e == "scissors" && selection == "paper") || (e == "paper" && selection == "rock")) {
+                result.innerText = "You win!"
+                scores.player += 1
+            } else {
+                result.innerText = "AI wins!"
+                scores.computer += 1
+            }
+
+            scoreboard.innerText = `Computer: ${scores.computer}\nYou: ${scores.player}`
+
+            computer.innerText = computer.innerText.replaceAll("rock", "🪨")
+            computer.innerText = computer.innerText.replaceAll("paper", "🗞️")
+            computer.innerText = computer.innerText.replaceAll("scissors", "✂️")
+
+            player.innerText = player.innerText.replaceAll("rock", "🪨")
+            player.innerText = player.innerText.replaceAll("paper", "🗞️")
+            player.innerText = player.innerText.replaceAll("scissors", "✂️")
+
+        }
+
+        document.getElementById("rock").onclick = () => {
+            play("rock")
+        }
+        document.getElementById("paper").onclick = () => {
+            play("paper")
+        }
+        document.getElementById("scissors").onclick = () => {
+            play("scissors")
+        }
+    </script>
+</Layout>

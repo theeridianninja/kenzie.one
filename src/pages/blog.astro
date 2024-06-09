@@ -1,0 +1,8 @@
+---
+import Layout from "layouts/primary.astro"
+import BlogPost from "components/blogpost.astro"
+const allPosts = await Astro.glob('../pages/blog/*.md');
+---
+<Layout>
+    {allPosts.map((post) => <BlogPost object={post} />)}
+</Layout>

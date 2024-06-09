@@ -1,0 +1,47 @@
+---
+const { object } = Astro.props
+---
+<style>
+    span {
+        border-radius: 10rem;
+        padding: 0.3rem 1rem;
+    }
+
+    .button {
+        border-radius: 5px;
+        padding: 0.5rem 1rem;
+        background-color: black;
+        color:white;
+    }
+
+    tr {
+        line-height: 4rem;
+    }
+
+    .online {
+        background-color: #198754;
+        color:white;
+    }
+
+    .uncolored {
+        background-color: white;
+        color:black;
+    }
+
+    .development, .planned {
+        background-color: #ffc107;
+        color: black;
+    }
+
+    .offline {
+        background-color: #dc3545;
+        color:white;
+    }
+</style>
+<tr>
+    <td>{object.frontmatter.title}</td>
+    <td><span class="uncolored">{object.frontmatter.category}</span></td>
+    <td><a class="button" href={object.frontmatter.source}>Source on {new URL(object.frontmatter.source).hostname}</a></td>
+    <td><span class={object.frontmatter.status.toLowerCase()}>{object.frontmatter.status}</span></td>
+    <td><a href={object.url} class="button">View</a></td>
+</tr>

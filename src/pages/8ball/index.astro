@@ -1,0 +1,79 @@
+---
+import Layout from "layouts/primary.astro"
+---
+
+<Layout>
+    <style>
+        #container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #ball {
+            height: 40vw;
+            width: 40vw;
+            background-color: black;
+            border-radius: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #ball h1 {
+            margin: 0;
+        }
+    </style>
+
+    <div id="container"><div id="ball"><h1 id="prediction">Test</h1></div></div>
+    <button id="activate">Shake!</button>
+    <label for="switch">Profanity Mode:</label><input type="checkbox"
+                                       id="switch"
+                                       class="checkbox" />
+
+    <script>
+        const prediction = document.getElementById("prediction")
+        const predictions = [
+            "I don't forsee it",
+            "Probably not",
+            "Don't get your hopes up",
+            "No",
+            "Definitely not",
+            "Very doubtful",
+            "My sources say no",
+            "Yes",
+            "Definitely",
+            "All signs point to yes",
+            "As I see it, yes",
+            "Most likely",
+            "Outlook good",
+            "I'm certain it is yes",
+            "Without a doubt",
+            "Ask again later",
+            "Cannot predict now",
+            "Better not tell you now"
+        ]
+
+        const profanity = [
+            "Hell no",
+            "Fuck no",
+            "The fuck is wrong with you, asking me a question like that?",
+            "You're a dumbass if you think yes",
+            "Fuckwit, of course yes!",
+            "Daft bitch, yes, that's common sense",
+            "I'm not even going to answer such a stupid fucking question",
+            "If you're a jackass about it, then no"
+        ]
+
+        const profanityPredictions = Array.prototype.concat(profanity, predictions)
+
+        document.getElementById("activate").onclick = () => {
+            if (document.getElementById("switch").checked) {
+                prediction.innerText = profanityPredictions[Math.floor(Math.random() * profanityPredictions.length)];
+            } else {
+                prediction.innerText = predictions[Math.floor(Math.random() * predictions.length)];
+            }
+        }
+    </script>
+</Layout>
+

@@ -1,0 +1,133 @@
+---
+import Layout from "layouts/primary.astro"
+---
+
+<Layout>
+    <style>
+        .side {
+            display: inline-flex;
+        }
+
+        .container {
+            margin: auto;
+            display: grid;
+            width: min-content;
+        }
+
+        .time {
+            width: 100%;
+        }
+    </style>
+    <h1 id="currentTime">Your Time</h1>
+    <h2 id="timezone">Your Timezone</h2>
+    <p id="watchDisplay">0:000</p>
+    <script>
+        document.getElementById("timezone").innerText =
+            `${Intl.DateTimeFormat().resolvedOptions().timeZone} (${new Date().toLocaleDateString(undefined, {
+                day: '2-digit',
+                timeZoneName: 'short'
+            }).substring(4)})`
+        setInterval(() => {
+            const currentTime = new Date();
+            document.getElementById("currentTime").innerText = currentTime.toLocaleTimeString()
+        }, 100)
+    </script>
+    <div class="container">
+    <span class="side">
+        <input type="time" id="alarm" class="time" value="0" pattern="[0-9]{2}:[0-9]{2}"/>
+        <button id="alarmAdd">Add Alarm</button>
+    </span>
+    <span class="side">
+        <input type="text" id="timer" class="time" value="00:00"/>
+        <button id="timerAdd">Add Timer</button>
+    </span>
+    <span class="side">
+        <button id="startWatch">Start Stopwatch</button>
+        <button id="stopWatch">Stop Stopwatch</button>
+    </span>
+    </div>
+
+    <p id="events"></p>
+    <audio id="sound" src="/alarm.wav" hidden loop></audio>
+    <script>
+        const alarmTime = document.getElementById("alarm")
+        const timerTime = document.getElementById("timer")
+        const events = document.getElementById("events")
+        let watchInterval = 0
+
+        let timerOff = false
+
+        alarmTime.value = 0
+        timerTime.value = "00:00"
+
+        const blareAlarm = () => {
+            if (!timerOff) {
+                timerOff = true;
+            document.getElementById("sound").play()
+            events.innerText += "Your alarm has went off! Reload the page to stop it.\n"
+                }
+        }
+
+        document.getElementById("alarmAdd").onclick = () => {
+            const alarmValue = alarmTime.value
+            const alarmDate = new Date();
+            alarmDate.setHours(alarmValue.split(":")[0])
+            alarmDate.setMinutes(alarmValue.split(":")[1])
+            alarmDate.setSeconds(0)
+            alarmDate.setMilliseconds(0)
+
+            const millisecondsUntilAlarm = alarmDate.getTime() - new Date().getTime()
+
+            setTimeout(blareAlarm, millisecondsUntilAlarm)
+            events.innerText += `Alarm set for ${alarmValue}\n`
+        }
+
+        document.getElementById("startWatch").onclick = () => {
+            const startTime = new Date();
+            watchInterval = setInterval(() => {
+                document.getElementById("watchDisplay").innerText = ((new Date().getTime() - startTime.getTime())/1000).toString().replaceAll(".", ":")
+            }, 1)
+        }
+
+        document.getElementById("stopWatch").onclick = () => {
+            clearInterval(watchInterval)
+        }
+
+        document.getElementById("timerAdd").onclick = () => {
+            const currentDate = new Date()
+            const futureTime = new Date()
+            let mode = undefined;
+            if (typeof timerTime.value.split(":")[2] != "undefined") {
+                mode = "hour"
+                futureTime.setSeconds(currentDate.getSeconds() + parseInt(timerTime.value.split(":")[2]))
+                futureTime.setMinutes(currentDate.getMinutes() + parseInt(timerTime.value.split(":")[1]))
+                futureTime.setHours(currentDate.getHours() + parseInt(timerTime.value.split(":")[0]))
+            } else if (typeof timerTime.value.split(":")[1] != "undefined") {
+                mode = "minute"
+                futureTime.setSeconds(currentDate.getSeconds() + parseInt(timerTime.value.split(":")[1]))
+                futureTime.setMinutes(currentDate.getMinutes() + parseInt(timerTime.value.split(":")[0]))
+            } else {
+                mode = "second"
+                futureTime.setSeconds(currentDate.getSeconds() + parseInt(timerTime.value.split(":")[0]))
+            }
+
+            events.innerText += `Timer will go off in ${Math.round((futureTime.getTime() - new Date().getTime())/1000)} seconds.\n`
+
+            setInterval(() => {
+                const dateDifference = futureTime.getTime() - new Date().getTime()
+                const setDate =  new Date(dateDifference)
+                setDate.setHours(setDate.getHours() - 18)
+                if (!timerOff) {
+                    timerTime.value = setDate.toLocaleTimeString(undefined, {hour12: false})
+                } else {
+                    timerTime.value = Math.round(dateDifference/1000)
+                }
+
+                if (dateDifference < 0) {
+                    blareAlarm()
+                }
+            }, 1)
+        }
+    </script>
+</Layout>
+

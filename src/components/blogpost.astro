@@ -1,0 +1,8 @@
+---
+const { object } = Astro.props
+---
+<div>
+    <h2>{object.rawContent().split("\n")[0].replaceAll("#", "")}</h2>
+    <p>{object.rawContent().split("\n").slice(1, 10).join("").split(" ").slice(0, 200).join(" ").replaceAll("#", "")}</p>
+    <a href={object.url}>Read More =></a>
+</div>

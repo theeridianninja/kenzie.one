@@ -1,0 +1,34 @@
+---
+import Layout from "layouts/primary.astro"
+import ProjectDisplay from "components/projectdisplay.astro";
+const projects = await Astro.glob('../pages/projects/*.md');
+
+projects.sort((a, b) => {
+    const statusA = a.frontmatter.status;
+    const statusB = b.frontmatter.status;
+    if (statusA !== statusB) {
+        return statusA.localeCompare(statusB);
+    } else {
+        const titleA = a.frontmatter.title;
+        const titleB = b.frontmatter.title;
+        return titleA.localeCompare(titleB);
+    }
+});
+---
+
+<Layout>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Source</th>
+            <th>Status</th>
+            <th>Link</th>
+        </tr>
+        </thead>
+        <tbody>
+        {projects.map((post) => <ProjectDisplay object={post} />)}
+        </tbody>
+    </table>
+</Layout>
