@@ -1,1 +1,0 @@
-<p>Copyright 2023 - William Kenzie</p>
